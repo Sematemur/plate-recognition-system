@@ -1,6 +1,6 @@
 # Plate Recognition System
 
-Turkish license plate detection and recognition system powered by a custom-trained YOLOv11 model and LLM-based OCR. Upload a vehicle image, the system detects the plate region with YOLO, reads the text via a vision LLM, and matches it against a vehicle database.
+Turkish license plate detection and recognition system powered by a custom-trained YOLOv26n model and LLM-based OCR. Upload a vehicle image, the system detects the plate region with YOLO, reads the text via a vision LLM, and matches it against a vehicle database.
 
 ## Screenshots
 
@@ -32,7 +32,7 @@ Turkish license plate detection and recognition system powered by a custom-train
 |---------|------|------|-------------|
 | **Frontend** | React + Vite + Nginx | 3001 | Upload UI, vehicle info cards, scan history |
 | **Backend** | FastAPI + SQLAlchemy | 8000 | REST API, business logic, database operations |
-| **YOLO Service** | FastAPI + Ultralytics | 8001 | License plate detection with custom YOLOv11 model |
+| **YOLO Service** | FastAPI + Ultralytics | 8001 | License plate detection with custom YOLOv26n model |
 | **OCR Service** | FastAPI + httpx | 8002 | Plate text recognition via vision LLM |
 | **LiteLLM** | LiteLLM Proxy | 4000 | AI gateway proxying requests to Ollama |
 | **PostgreSQL** | PostgreSQL 16 | 5432 | Vehicle and recognition log storage |
@@ -55,7 +55,7 @@ Image Upload → YOLO Detection → Crop Best Plate → OCR (Vision LLM) → DB 
 
 The plate detection model was trained using a Turkish license plate dataset:
 
-- **Base Model**: YOLOv11s (yolo11s.pt)
+- **Base Model**: YOLOv26n
 - **Dataset**: [Turkish License Plate Dataset](https://www.kaggle.com/datasets/smaildurcan/turkish-license-plate-dataset) from Kaggle
 - **Split**: Train / Validation (80/20)
 - **Epochs**: 150 (with early stopping, patience=30)
@@ -70,7 +70,7 @@ The training script is available at [`train_yolo.py`](train_yolo.py).
 
 **Backend**: Python 3.11, FastAPI, SQLAlchemy, Pydantic, httpx
 **Frontend**: React 18, Vite, Nginx
-**AI/ML**: YOLOv11 (Ultralytics), LiteLLM, Ollama
+**AI/ML**: YOLOv26n (Ultralytics), LiteLLM, Ollama
 **Database**: PostgreSQL 16
 **Infrastructure**: Docker, Docker Compose
 
