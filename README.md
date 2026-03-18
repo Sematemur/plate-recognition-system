@@ -183,8 +183,6 @@ plate-recognition-system/
 │   │   ├── recognizer.py     # LLM-based plate reading + sanitization
 │   │   └── config.py         # OCR settings and confidence thresholds
 │   └── tests/
-├── training/                 # YOLO training notebook
-├── train_yolo.py             # YOLO training script (Google Colab)
 ├── docker-compose.yml        # Multi-service orchestration
 ├── litellm_config.yaml       # LiteLLM proxy configuration
 └── .env.example              # Environment variable template
