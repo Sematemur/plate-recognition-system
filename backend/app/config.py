@@ -3,7 +3,7 @@ from pydantic_settings import BaseSettings
 
 class Settings(BaseSettings):
     # Database
-    database_url: str = "postgresql://opet:opet@localhost:5432/opet"
+    database_url: str
 
     # Service URLs
     yolo_service_url: str = "http://localhost:8001"

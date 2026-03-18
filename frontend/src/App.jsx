@@ -22,16 +22,16 @@ function saveState(key, value) {
 }
 
 export default function App() {
-  const [imageUrl, setImageUrl] = useState(() => loadState('opet_imageUrl', null))
-  const [croppedPlate, setCroppedPlate] = useState(() => loadState('opet_croppedPlate', null))
-  const [result, setResult] = useState(() => loadState('opet_result', null))
+  const [imageUrl, setImageUrl] = useState(() => loadState('app_imageUrl', null))
+  const [croppedPlate, setCroppedPlate] = useState(() => loadState('app_croppedPlate', null))
+  const [result, setResult] = useState(() => loadState('app_result', null))
   const [isProcessing, setIsProcessing] = useState(false)
-  const [logs, setLogs] = useState(() => loadState('opet_logs', []))
+  const [logs, setLogs] = useState(() => loadState('app_logs', []))
 
-  useEffect(() => { saveState('opet_result', result) }, [result])
-  useEffect(() => { saveState('opet_logs', logs) }, [logs])
-  useEffect(() => { saveState('opet_imageUrl', imageUrl) }, [imageUrl])
-  useEffect(() => { saveState('opet_croppedPlate', croppedPlate) }, [croppedPlate])
+  useEffect(() => { saveState('app_result', result) }, [result])
+  useEffect(() => { saveState('app_logs', logs) }, [logs])
+  useEffect(() => { saveState('app_imageUrl', imageUrl) }, [imageUrl])
+  useEffect(() => { saveState('app_croppedPlate', croppedPlate) }, [croppedPlate])
 
   const handleFileSelect = useCallback(async (file) => {
     setIsProcessing(true)

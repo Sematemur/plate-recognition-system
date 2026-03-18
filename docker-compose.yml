@@ -2,15 +2,15 @@ services:
   postgres:
     image: postgres:16-alpine
     environment:
-      POSTGRES_USER: ${POSTGRES_USER:-opet}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-opet}
-      POSTGRES_DB: ${POSTGRES_DB:-opet}
+      POSTGRES_USER: ${POSTGRES_USER:-fuelstation}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-fuelstation}
+      POSTGRES_DB: ${POSTGRES_DB:-fuelstation}
     ports:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -d opet -U opet"]
+      test: ["CMD-SHELL", "pg_isready -d fuelstation -U fuelstation"]
       interval: 5s
       timeout: 5s
       retries: 10
@@ -41,10 +41,10 @@ services:
     volumes:
       - ./litellm_config.yaml:/app/config.yaml
     environment:
-      LITELLM_MASTER_KEY: ${LITELLM_MASTER_KEY:-sk-litellm-master-key}
-      UI_USERNAME: ${UI_USERNAME:-admin}
-      UI_PASSWORD: ${UI_PASSWORD:-admin}
-      DATABASE_URL: ${LITELLM_DATABASE_URL:-postgresql://litellm:litellm@litellm-db:5432/litellm}
+      LITELLM_MASTER_KEY: ${LITELLM_MASTER_KEY}
+      UI_USERNAME: ${UI_USERNAME}
+      UI_PASSWORD: ${UI_PASSWORD}
+      DATABASE_URL: ${LITELLM_DATABASE_URL:-postgresql://${LITELLM_DB_USER:-litellm}:${LITELLM_DB_PASSWORD:-litellm}@litellm-db:5432/${LITELLM_DB_NAME:-litellm}}
       STORE_MODEL_IN_DB: "True"
     command: --config /app/config.yaml --port 4000
     healthcheck:
@@ -75,7 +75,7 @@ services:
     environment:
       LITELLM_BASE_URL: http://litellm:4000
       LITELLM_MODEL: ${LITELLM_MODEL:-glm-ocr}
-      LITELLM_API_KEY: ${LITELLM_MASTER_KEY:-sk-litellm-master-key}
+      LITELLM_API_KEY: ${LITELLM_MASTER_KEY}
       LITELLM_TIMEOUT: ${LITELLM_TIMEOUT:-120.0}
       HIGH_CONFIDENCE_THRESHOLD: ${HIGH_CONFIDENCE_THRESHOLD:-0.9}
       MEDIUM_CONFIDENCE_THRESHOLD: ${MEDIUM_CONFIDENCE_THRESHOLD:-0.6}
@@ -94,7 +94,7 @@ services:
       ocr-service:
         condition: service_started
     environment:
-      DATABASE_URL: postgresql://${POSTGRES_USER:-opet}:${POSTGRES_PASSWORD:-opet}@postgres:5432/${POSTGRES_DB:-opet}
+      DATABASE_URL: postgresql://${POSTGRES_USER:-fuelstation}:${POSTGRES_PASSWORD:-fuelstation}@postgres:5432/${POSTGRES_DB:-fuelstation}
       YOLO_SERVICE_URL: http://yolo-service:8001
       OCR_SERVICE_URL: http://ocr-service:8002
       YOLO_TIMEOUT: ${YOLO_TIMEOUT:-30.0}

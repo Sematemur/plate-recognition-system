@@ -30,7 +30,7 @@ async def lifespan(app: FastAPI):
     logger.info("Connections closed")
 
 
-app = FastAPI(title="Opet Plate Recognition Backend", lifespan=lifespan)
+app = FastAPI(title="Plate Recognition Backend", lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
