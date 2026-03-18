@@ -1,6 +1,10 @@
 # Plate Recognition System
 
-Turkish license plate detection and recognition system powered by a custom-trained YOLOv26n model and GLM-OCR (via Ollama) for plate text reading. Upload a vehicle image, the system detects the plate region with YOLO, reads the text via GLM-OCR vision model, and matches it against a vehicle database.
+Turkish license plate detection and recognition system designed to **prevent incorrect fuel filling** at gas stations. Field sales staff use this system to automatically read a vehicle's license plate, look up its registered fuel type from the database, and ensure the correct fuel is dispensed.
+
+Vehicles are also registered with their brand, model, and color — because plates can be swapped between vehicles, these additional identifiers help verify that the right car is being served.
+
+Powered by a custom-trained YOLOv26n model for plate detection and GLM-OCR (via Ollama) for plate text reading.
 
 ## Screenshots
 
