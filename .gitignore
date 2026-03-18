@@ -1,0 +1,40 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+
+# Node
+node_modules/
+dist/
+
+# IDE
+.vscode/
+.idea/
+*.code-workspace
+
+# Environment
+.env
+.env.local
+
+# YOLO models (large files)
+yolo-service/models/*.pt
+*.pt
+
+# Uploads
+backend/uploads/
+
+# Docs (internal)
+docs/
+
+# Superpowers
+.superpowers/
+
+# Claude
+.claude/
+
+# Sample data
+sample-data/

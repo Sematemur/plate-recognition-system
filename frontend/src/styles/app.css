@@ -1,0 +1,715 @@
+/* ============================================================
+   OPET Plaka Tanima — Modern Light Theme
+   Palette:
+     bg          #f5f6fa
+     surface     #ffffff
+     border      #e5e7eb
+     text        #1f2937
+     muted       #6b7280
+     primary     #d32f2f (OPET red)
+     primary-dk  #b71c1c
+     accent      #ff6f00 (OPET orange)
+     success     #16a34a
+     warning     #f59e0b
+     danger      #dc2626
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+/* ----- Reset & Base ----- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background-color: #f5f6fa;
+  color: #1f2937;
+  font-size: 14px;
+  line-height: 1.6;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ----- App Shell ----- */
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 2rem 2.5rem;
+  gap: 1.5rem;
+}
+
+/* ----- Header ----- */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 0;
+  border-bottom: 2px solid #e5e7eb;
+  flex-shrink: 0;
+}
+
+.header-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  color: #d32f2f;
+  text-transform: uppercase;
+}
+
+.status-indicator {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.35rem 0.9rem;
+  border-radius: 9999px;
+  letter-spacing: 0.03em;
+}
+
+.status-indicator.connected {
+  color: #16a34a;
+  background-color: #f0fdf4;
+  border: 1px solid #bbf7d0;
+}
+
+.status-indicator.disconnected {
+  color: #dc2626;
+  background-color: #fef2f2;
+  border: 1px solid #fecaca;
+}
+
+/* ----- Controls Bar ----- */
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+/* ----- Mode Toggle ----- */
+.mode-toggle {
+  display: flex;
+  gap: 0;
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  padding: 3px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+}
+
+.mode-toggle .btn {
+  padding: 0.45rem 1rem;
+  border-radius: 0.375rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  background: transparent;
+  color: #6b7280;
+  border: none;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.mode-toggle .btn:hover {
+  color: #1f2937;
+  background-color: #f9fafb;
+}
+
+.mode-toggle .btn.active {
+  background-color: #d32f2f;
+  color: #ffffff;
+  box-shadow: 0 1px 3px rgba(211, 47, 47, 0.3);
+}
+
+/* ----- Buttons (general) ----- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 1.1rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background-color: #d32f2f;
+  color: #ffffff;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background-color: #b71c1c;
+  box-shadow: 0 2px 8px rgba(211, 47, 47, 0.3);
+}
+
+.btn-warning {
+  background-color: #ff6f00;
+  color: #ffffff;
+}
+
+.btn-warning:hover:not(:disabled) {
+  background-color: #e65100;
+  box-shadow: 0 2px 8px rgba(255, 111, 0, 0.3);
+}
+
+.btn-success {
+  background-color: #16a34a;
+  color: #ffffff;
+}
+
+.btn-success:hover:not(:disabled) {
+  background-color: #15803d;
+}
+
+.btn-danger {
+  background-color: #dc2626;
+  color: #ffffff;
+}
+
+.btn-danger:hover:not(:disabled) {
+  background-color: #b91c1c;
+}
+
+/* ----- Upload Zone ----- */
+.upload-zone {
+  flex: 1;
+  min-height: 64px;
+  border: 2px dashed #d1d5db;
+  border-radius: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  background-color: #ffffff;
+}
+
+.upload-zone:hover {
+  border-color: #d32f2f;
+  background-color: #fef2f2;
+}
+
+.upload-zone:focus-within {
+  border-color: #d32f2f;
+  box-shadow: 0 0 0 3px rgba(211, 47, 47, 0.1);
+}
+
+.upload-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #6b7280;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 1rem 2rem;
+  text-align: center;
+  user-select: none;
+  width: 100%;
+  justify-content: center;
+  transition: color 0.15s ease;
+}
+
+.upload-label:hover {
+  color: #d32f2f;
+}
+
+/* ----- Feed Controls ----- */
+.feed-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* ----- Main Content (2-column grid) ----- */
+.main-content {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 1.5rem;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .main-content {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ----- Shared Panel Base ----- */
+.image-panel,
+.result-panel {
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  min-width: 0;
+}
+
+/* ----- Panel Label ----- */
+.panel-label {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #9ca3af;
+  border-bottom: 1px solid #f3f4f6;
+  padding-bottom: 0.625rem;
+}
+
+/* ----- Panel Section ----- */
+.panel-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+}
+
+/* ----- Placeholder ----- */
+.placeholder {
+  color: #9ca3af;
+  font-size: 0.875rem;
+  text-align: center;
+  padding: 2.5rem 1rem;
+}
+
+/* ----- Image Wrapper (relative container for clear button) ----- */
+.image-wrapper {
+  position: relative;
+}
+
+.image-clear-btn {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: none;
+  background-color: rgba(0, 0, 0, 0.55);
+  color: #ffffff;
+  font-size: 1.125rem;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.15s ease;
+}
+
+.image-clear-btn:hover {
+  background-color: #dc2626;
+}
+
+/* ----- Image Panel — Vehicle Image ----- */
+.vehicle-image {
+  width: 100%;
+  max-width: 100%;
+  height: 280px;
+  object-fit: contain;
+  border-radius: 0.5rem;
+  border: 1px solid #f3f4f6;
+  background-color: #fafafa;
+}
+
+/* ----- Plate Crop ----- */
+.plate-crop {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.plate-crop img {
+  border-radius: 0.375rem;
+  border: 1px solid #e5e7eb;
+  max-width: 100%;
+  max-height: 80px;
+  object-fit: contain;
+  background-color: #fafafa;
+}
+
+.plate-text {
+  font-family: 'Courier New', 'Consolas', monospace;
+  font-size: 1.375rem;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  color: #1f2937;
+  background-color: #fff7ed;
+  border: 2px solid #ff6f00;
+  border-radius: 0.375rem;
+  padding: 0.25rem 0.75rem;
+  text-transform: uppercase;
+}
+
+/* ----- Result Cards ----- */
+.result-card {
+  border-radius: 0.75rem;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  border: 1px solid transparent;
+}
+
+.result-card.known {
+  background-color: #f0fdf4;
+  border-color: #bbf7d0;
+}
+
+.result-card.unknown {
+  background-color: #fffbeb;
+  border-color: #fde68a;
+}
+
+.result-card.error {
+  background-color: #fef2f2;
+  border-color: #fecaca;
+}
+
+.result-card.manual {
+  background-color: #eff6ff;
+  border-color: #bfdbfe;
+}
+
+/* ----- Result Status Line ----- */
+.result-status {
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+.result-card.error .result-status { color: #dc2626; }
+
+/* ----- Status Badge ----- */
+.status-badge {
+  display: inline-block;
+  align-self: flex-start;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.85rem;
+  border-radius: 9999px;
+  border: 1px solid transparent;
+}
+
+.status-badge.known {
+  color: #16a34a;
+  background-color: #dcfce7;
+  border-color: #bbf7d0;
+}
+
+.status-badge.unknown {
+  color: #d97706;
+  background-color: #fef3c7;
+  border-color: #fde68a;
+}
+
+.status-badge.manual {
+  color: #2563eb;
+  background-color: #dbeafe;
+  border-color: #bfdbfe;
+}
+
+/* ----- Result Card Header (badge + edit button) ----- */
+.result-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.btn-edit {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.3rem 0.75rem;
+  border-radius: 0.375rem;
+  border: 1px solid #d1d5db;
+  background-color: #ffffff;
+  color: #6b7280;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn-edit:hover {
+  border-color: #d32f2f;
+  color: #d32f2f;
+  background-color: #fef2f2;
+}
+
+/* ----- Form Actions (submit + cancel) ----- */
+.form-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.form-actions button[type="submit"] {
+  flex: 1;
+  padding: 0.65rem 1.25rem;
+  background-color: #d32f2f;
+  color: #ffffff;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.form-actions button[type="submit"]:hover:not(:disabled) {
+  background-color: #b71c1c;
+  box-shadow: 0 2px 8px rgba(211, 47, 47, 0.3);
+}
+
+.form-actions button[type="submit"]:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.btn-cancel {
+  padding: 0.65rem 1.25rem;
+  background-color: #ffffff;
+  color: #6b7280;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn-cancel:hover {
+  border-color: #9ca3af;
+  color: #1f2937;
+}
+
+/* ----- Vehicle Info Grid ----- */
+.vehicle-info-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.info-row {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.info-row:last-child {
+  border-bottom: none;
+}
+
+.info-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #9ca3af;
+  min-width: 6rem;
+  flex-shrink: 0;
+}
+
+.info-value {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+/* ----- Registration Form ----- */
+.register-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.register-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #6b7280;
+}
+
+.register-form input,
+.register-form select {
+  background-color: #ffffff;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  color: #1f2937;
+  font-size: 0.9375rem;
+  padding: 0.55rem 0.75rem;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  width: 100%;
+  font-family: inherit;
+}
+
+.register-form input:focus,
+.register-form select:focus {
+  border-color: #d32f2f;
+  box-shadow: 0 0 0 3px rgba(211, 47, 47, 0.1);
+}
+
+.register-form input::placeholder {
+  color: #9ca3af;
+}
+
+.register-form select option {
+  background-color: #ffffff;
+  color: #1f2937;
+}
+
+.register-form button[type="submit"] {
+  margin-top: 0.5rem;
+  padding: 0.65rem 1.25rem;
+  background-color: #d32f2f;
+  color: #ffffff;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.register-form button[type="submit"]:hover:not(:disabled) {
+  background-color: #b71c1c;
+  box-shadow: 0 2px 8px rgba(211, 47, 47, 0.3);
+}
+
+.register-form button[type="submit"]:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* ----- History Log ----- */
+.history-log {
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+}
+
+.history-log table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 0.75rem;
+  font-size: 0.875rem;
+}
+
+.history-log thead tr {
+  border-bottom: 2px solid #f3f4f6;
+}
+
+.history-log th {
+  text-align: left;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #9ca3af;
+  padding: 0 0.75rem 0.75rem;
+}
+
+.history-log td {
+  padding: 0.75rem;
+  color: #374151;
+  border-bottom: 1px solid #f3f4f6;
+  vertical-align: middle;
+}
+
+.history-log tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.history-log tbody tr:hover td {
+  background-color: #f9fafb;
+}
+
+/* ----- Badges ----- */
+.badge {
+  display: inline-block;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.6rem;
+  border-radius: 9999px;
+  border: 1px solid transparent;
+}
+
+.badge.known {
+  color: #16a34a;
+  background-color: #dcfce7;
+  border-color: #bbf7d0;
+}
+
+.badge.unknown {
+  color: #d97706;
+  background-color: #fef3c7;
+  border-color: #fde68a;
+}
+
+/* ----- Scrollbar ----- */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f5f6fa;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}
+
+/* ----- Utility ----- */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}

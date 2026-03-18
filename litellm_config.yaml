@@ -1,0 +1,5 @@
+model_list:
+  - model_name: glm-ocr
+    litellm_params:
+      model: ollama/glm-ocr:latest
+      api_base: http://host.docker.internal:11434

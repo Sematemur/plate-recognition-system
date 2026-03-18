@@ -1,0 +1,117 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-opet}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-opet}
+      POSTGRES_DB: ${POSTGRES_DB:-opet}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d opet -U opet"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  litellm-db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: ${LITELLM_DB_USER:-litellm}
+      POSTGRES_PASSWORD: ${LITELLM_DB_PASSWORD:-litellm}
+      POSTGRES_DB: ${LITELLM_DB_NAME:-litellm}
+    ports:
+      - "5433:5432"
+    volumes:
+      - litellm_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d litellm -U litellm"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  litellm:
+    image: ghcr.io/berriai/litellm:main-latest
+    ports:
+      - "4000:4000"
+    depends_on:
+      litellm-db:
+        condition: service_healthy
+    volumes:
+      - ./litellm_config.yaml:/app/config.yaml
+    environment:
+      LITELLM_MASTER_KEY: ${LITELLM_MASTER_KEY:-sk-litellm-master-key}
+      UI_USERNAME: ${UI_USERNAME:-admin}
+      UI_PASSWORD: ${UI_PASSWORD:-admin}
+      DATABASE_URL: ${LITELLM_DATABASE_URL:-postgresql://litellm:litellm@litellm-db:5432/litellm}
+      STORE_MODEL_IN_DB: "True"
+    command: --config /app/config.yaml --port 4000
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://localhost:4000/health/liveliness')\""]
+      interval: 10s
+      timeout: 10s
+      retries: 15
+      start_period: 30s
+
+  yolo-service:
+    build: ./yolo-service
+    ports:
+      - "8001:8001"
+    volumes:
+      - ./yolo-service/models:/app/models
+    environment:
+      YOLO_MODEL_PATH: ${YOLO_MODEL_PATH:-models/best.pt}
+      YOLO_CONFIDENCE_THRESHOLD: ${YOLO_CONFIDENCE_THRESHOLD:-0.25}
+      MAX_IMAGE_SIZE_BYTES: ${MAX_IMAGE_SIZE_BYTES:-10485760}
+
+  ocr-service:
+    build: ./ocr-service
+    ports:
+      - "8002:8002"
+    depends_on:
+      litellm:
+        condition: service_healthy
+    environment:
+      LITELLM_BASE_URL: http://litellm:4000
+      LITELLM_MODEL: ${LITELLM_MODEL:-glm-ocr}
+      LITELLM_API_KEY: ${LITELLM_MASTER_KEY:-sk-litellm-master-key}
+      LITELLM_TIMEOUT: ${LITELLM_TIMEOUT:-120.0}
+      HIGH_CONFIDENCE_THRESHOLD: ${HIGH_CONFIDENCE_THRESHOLD:-0.9}
+      MEDIUM_CONFIDENCE_THRESHOLD: ${MEDIUM_CONFIDENCE_THRESHOLD:-0.6}
+      LOW_CONFIDENCE_THRESHOLD: ${LOW_CONFIDENCE_THRESHOLD:-0.3}
+      MAX_PLATE_LENGTH: ${MAX_PLATE_LENGTH:-12}
+
+  backend:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      yolo-service:
+        condition: service_started
+      ocr-service:
+        condition: service_started
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-opet}:${POSTGRES_PASSWORD:-opet}@postgres:5432/${POSTGRES_DB:-opet}
+      YOLO_SERVICE_URL: http://yolo-service:8001
+      OCR_SERVICE_URL: http://ocr-service:8002
+      YOLO_TIMEOUT: ${YOLO_TIMEOUT:-30.0}
+      OCR_TIMEOUT: ${OCR_TIMEOUT:-120.0}
+      FEED_INTERVAL: ${FEED_INTERVAL:-3}
+      MAX_IMAGE_SIZE_BYTES: ${MAX_IMAGE_SIZE_BYTES:-10485760}
+      CORS_ALLOWED_ORIGINS: '["http://localhost:3001"]'
+    volumes:
+      - ./sample-data:/app/sample-data
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "3001:3000"
+    depends_on:
+      - backend
+
+volumes:
+  pgdata:
+  litellm_pgdata:
