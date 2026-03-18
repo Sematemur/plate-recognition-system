@@ -1,6 +1,6 @@
 # Plate Recognition System
 
-Turkish license plate detection and recognition system powered by a custom-trained YOLOv26n model and LLM-based OCR. Upload a vehicle image, the system detects the plate region with YOLO, reads the text via a vision LLM, and matches it against a vehicle database.
+Turkish license plate detection and recognition system powered by a custom-trained YOLOv26n model and GLM-OCR (via Ollama) for plate text reading. Upload a vehicle image, the system detects the plate region with YOLO, reads the text via GLM-OCR vision model, and matches it against a vehicle database.
 
 ## Screenshots
 
@@ -33,8 +33,8 @@ Turkish license plate detection and recognition system powered by a custom-train
 | **Frontend** | React + Vite + Nginx | 3001 | Upload UI, vehicle info cards, scan history |
 | **Backend** | FastAPI + SQLAlchemy | 8000 | REST API, business logic, database operations |
 | **YOLO Service** | FastAPI + Ultralytics | 8001 | License plate detection with custom YOLOv26n model |
-| **OCR Service** | FastAPI + httpx | 8002 | Plate text recognition via vision LLM |
-| **LiteLLM** | LiteLLM Proxy | 4000 | AI gateway proxying requests to Ollama |
+| **OCR Service** | FastAPI + httpx | 8002 | Plate text recognition via GLM-OCR vision model |
+| **LiteLLM** | LiteLLM Proxy | 4000 | AI gateway proxying requests to Ollama (GLM-OCR) |
 | **PostgreSQL** | PostgreSQL 16 | 5432 | Vehicle and recognition log storage |
 | **LiteLLM DB** | PostgreSQL 16 | 5433 | LiteLLM internal storage |
 
@@ -46,7 +46,7 @@ Image Upload → YOLO Detection → Crop Best Plate → OCR (Vision LLM) → DB 
 
 1. User uploads a vehicle image
 2. **YOLO Service** detects plate regions and returns cropped plate images with confidence scores
-3. **OCR Service** sends the cropped plate to a vision LLM via LiteLLM, sanitizes the output, and validates against Turkish plate format
+3. **OCR Service** sends the cropped plate to GLM-OCR (running on Ollama) via LiteLLM, sanitizes the output, and validates against Turkish plate format
 4. **Backend** normalizes the plate text, looks up the vehicle database, logs the recognition, and returns the result
 5. If the vehicle is not registered, the user can register it with fuel type, brand, model, and color
 6. If detection fails, the user can manually enter vehicle information
@@ -70,7 +70,7 @@ The training script is available at [`train_yolo.py`](train_yolo.py).
 
 **Backend**: Python 3.11, FastAPI, SQLAlchemy, Pydantic, httpx
 **Frontend**: React 18, Vite, Nginx
-**AI/ML**: YOLOv26n (Ultralytics), LiteLLM, Ollama
+**AI/ML**: YOLOv26n (Ultralytics), GLM-OCR (Ollama), LiteLLM
 **Database**: PostgreSQL 16
 **Infrastructure**: Docker, Docker Compose
 
